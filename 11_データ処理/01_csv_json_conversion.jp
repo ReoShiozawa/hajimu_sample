@@ -1,0 +1,50 @@
+// はじむ言語：CSVとJSON変換
+
+// CSVデータ（文字列）
+変数 csv_data = "名前,年齢,都市\n田中太郎,30,東京\n山田花子,25,大阪\n佐藤次郎,35,名古屋"
+
+// CSV → 辞書配列に変換
+関数 CSVを解析(csv):
+    変数 lines = 分割(csv, "\n")
+    変数 headers = 分割(lines[0], ",")
+    変数 records = []
+
+    i を 1 から 長さ(lines) - 1 繰り返す
+        変数 values = 分割(lines[i], ",")
+        変数 record = {}
+        j を 0 から 長さ(headers) - 1 繰り返す
+            record[headers[j]] = values[j]
+        終わり
+        追加(records, record)
+    終わり
+    戻す records
+終わり
+
+// 解析実行
+変数 records = CSVを解析(csv_data)
+
+表示("=== CSV解析結果 ===")
+各 r を records の中:
+    表示("名前: " + r["名前"] + ", 年齢: " + r["年齢"] + ", 都市: " + r["都市"])
+終わり
+
+// JSON形式で出力
+表示("=== JSON出力 ===")
+変数 json_str = JSON化(records)
+表示(json_str)
+
+// JSON → 再解析
+変数 parsed = JSON解析(json_str)
+表示("=== 再解析 ===")
+表示("レコード数: " + 文字列化(長さ(parsed)))
+表示("最初のレコード: " + 文字列化(parsed[0]))
+
+// 統計
+表示("=== 統計 ===")
+変数 ages = 変換(records, 関数(r):
+    戻す 数値化(r["年齢"])
+終わり)
+変数 合計年齢 = 集約(ages, 関数(acc, x):
+    戻す acc + x
+終わり, 0)
+表示("平均年齢: " + 文字列化(合計年齢 / 長さ(ages)))

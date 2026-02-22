@@ -1,0 +1,43 @@
+// はじむ言語：REST API完全サンプル
+
+// APIクライアントクラス
+型 JSONPlaceholderClient:
+    初期化(base_url):
+        自分.base_url = base_url
+    終わり
+
+    関数 取得(path):
+        変数 url = 自分.base_url + path
+        変数 res = HTTP取得(url)
+        もし res["状態"] == 200 なら
+            戻す JSON解析(res["本文"])
+        それ以外
+            投げる "HTTP Error: " + 文字列化(res["状態"])
+        終わり
+    終わり
+終わり
+
+変数 client = 新規 JSONPlaceholderClient("https://jsonplaceholder.typicode.com")
+
+// 投稿一覧を取得
+試行:
+    表示("=== 投稿一覧（最初の3件）===")
+    変数 posts = client.取得("/posts?_limit=3")
+    各 post を posts の中:
+        表示("[" + 文字列化(post["id"]) + "] " + post["title"])
+    終わり
+
+    表示("")
+    表示("=== ユーザー情報 ===")
+    変数 user = client.取得("/users/1")
+    表示("名前: " + user["name"])
+    表示("メール: " + user["email"])
+    表示("会社: " + user["company"]["name"])
+
+    表示("")
+    表示("=== コメント数集計 ===")
+    変数 comments = client.取得("/comments?postId=1")
+    表示("投稿1のコメント数: " + 文字列化(長さ(comments)))
+捕獲 err:
+    表示("エラー: " + 文字列化(err))
+終わり

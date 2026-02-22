@@ -1,0 +1,38 @@
+// はじむ言語：Web APIサーバー (hajimu_web)
+
+取り込む "hajimu_web" として ウェブ
+
+// サーバーとCORS設定
+ウェブ.サーバー作成(3000)
+ウェブ.CORS有効()
+
+// JSON化を使ってレスポンスを構築
+変数 status_data = {"status": "正常", "version": "1.0"}
+変数 status_json = JSON化(status_data)
+ウェブ.JSON応答("/api/status", 200, status_json)
+
+変数 user1 = {"id": 1, "名前": "田中太郎"}
+変数 user2 = {"id": 2, "名前": "佐藤花子"}
+変数 users = [user1, user2]
+変数 users_json = JSON化(users)
+ウェブ.JSON応答("/api/users", 200, users_json)
+
+// 動的エンドポイント
+関数 ユーザー詳細(リクエスト):
+    変数 id = リクエスト["params"]["id"]
+    変数 user = {"id": id, "名前": "ユーザー" + 文字列化(id)}
+    ウェブ.JSON送信(JSON化(user))
+終わり
+
+ウェブ.GET("/api/users/:id", ユーザー詳細)
+
+// HTMLページ
+関数 トップページ(リクエスト):
+    ウェブ.HTML送信("<html><body><h1>はじむ Web API</h1></body></html>")
+終わり
+
+ウェブ.GET("/", トップページ)
+
+// サーバー起動
+表示("APIサーバー起動中: http://localhost:3000")
+ウェブ.起動()

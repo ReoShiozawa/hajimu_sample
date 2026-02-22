@@ -1,0 +1,40 @@
+// はじむ言語：ファイル操作
+
+// ファイルに書き込み
+書き込む("sample.txt", "はじむ言語でファイル書き込み\nこれは2行目です\nこれは3行目です")
+表示("sample.txt を作成しました")
+
+// ファイルの存在確認
+もし ファイル存在("sample.txt") なら
+    表示("ファイルが存在します")
+終わり
+
+// ファイルを読み込み
+変数 content = 読み込む("sample.txt")
+表示("=== ファイル内容 ===")
+表示(content)
+
+// 行ごとに処理
+変数 lines = 分割(content, "\n")
+表示("行数: " + 文字列化(長さ(lines)))
+各 line を lines の中:
+    表示("行: " + line)
+終わり
+
+// ファイルに追記
+追記("sample.txt", "\n4行目を追加しました")
+変数 updated = 読み込む("sample.txt")
+表示("=== 追記後 ===")
+表示(updated)
+
+// JSON形式でデータを保存
+変数 data = {"名前": "太郎", "年齢": 25, "趣味": ["読書", "プログラミング"]}
+変数 json_str = JSON化(data)
+書き込む("data.json", json_str)
+表示("data.json を作成しました")
+
+// JSONを読み込んで解析
+変数 json_content = 読み込む("data.json")
+変数 parsed = JSON解析(json_content)
+表示("名前: " + parsed["名前"])
+表示("年齢: " + 文字列化(parsed["年齢"]))

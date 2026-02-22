@@ -1,0 +1,14 @@
+# 生成ファイル（サンプル実行時に作成される）
+data.json
+sample.txt
+
+# 外部パッケージ（各自 hajimu パッケージ インストール で取得）
+hajimu_packages/
+
+# ルートのテスト用一時ファイル
+test_default_args.jp
+test_simple_class.jp
+
+# macOS
+.DS_Store
+**/.DS_Store

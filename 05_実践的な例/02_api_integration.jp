@@ -1,0 +1,27 @@
+// はじむ言語：HTTP API連携
+
+表示("=== JSONPlaceholder API テスト ===")
+
+// GETリクエスト
+変数 res = HTTP取得("https://jsonplaceholder.typicode.com/posts/1")
+もし res["状態"] == 200 なら
+    変数 post = JSON解析(res["本文"])
+    表示("タイトル: " + post["title"])
+    表示("本文: " + 部分文字列(post["body"], 0, 50) + "...")
+それ以外
+    表示("エラー: " + 文字列化(res["状態"]))
+終わり
+
+// 複数件取得
+変数 res2 = HTTP取得("https://jsonplaceholder.typicode.com/users?_limit=3")
+もし res2["状態"] == 200 なら
+    変数 users = JSON解析(res2["本文"])
+    表示("=== ユーザー一覧 ===")
+    各 user を users の中:
+        表示(user["name"] + " (" + user["email"] + ")")
+    終わり
+終わり
+
+// URLエンコード
+変数 query = URLエンコード("はじむ言語 プログラミング")
+表示("エンコード: " + query)
